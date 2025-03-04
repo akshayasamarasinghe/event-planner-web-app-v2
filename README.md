@@ -1,5 +1,3 @@
-# Mantine Vite template
+Event Management Web Application
 
-Get started with the template by clicking `Use this template` button on the top of the page.
-
-[Documentation](https://mantine.dev/guides/vite/)
+React Vite Simple App
