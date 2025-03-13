@@ -2,6 +2,7 @@ import {AppShell, NavLink} from '@mantine/core';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Home from "../pages/Home";
 import About from "../pages/About";
+import EventPage from '../pages/Eventi/eventpage';
 
 export const AppLayout = () => {
 
@@ -27,7 +28,7 @@ export const AppLayout = () => {
                                     label="Home"
                                 />
                                 <NavLink
-                                    href="/events"
+                                    href="/eventpage"
                                     label="Events">
                                 </NavLink>
                                 <NavLink
