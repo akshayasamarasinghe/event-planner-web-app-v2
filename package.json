@@ -1,12 +1,15 @@
 {
   "name": "vite-min-template",
-  "private": true,
+  "homepage": "https://chathurisandeepanialwis.github.io/event-managment-fullstack/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy" : "gh-pages -d dist"
+
   },
   "dependencies": {
     "@mantine/core": "7.17.1",
@@ -14,11 +17,12 @@
     "@mui/icons-material": "^6.4.7",
     "@mui/material": "^6.4.7",
     "@tailwindcss/vite": "^4.0.9",
+    "gh-pages": "^6.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.54.2",
     "react-router-dom": "^6.30.0",
-    "tailwindcss": "^4.0.9"
+    "tailwindcss": "^4.0.12"
   },
   "devDependencies": {
     "@types/react": "^19.0.7",
