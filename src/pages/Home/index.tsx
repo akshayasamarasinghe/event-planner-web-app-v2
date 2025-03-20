@@ -1,6 +1,10 @@
 import {Button} from "@mantine/core";
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
+    const navigate = useNavigate();
+
+
     return (
         <div className="container mx-auto">
             <section>
@@ -11,6 +15,9 @@ const Home = () => {
                         Nunc auctor consectetur elit, quis pulvina. Lorem ipsum dolor sit amet, consectetur adipiscing
                         elit.
                         Nulla fringilla nunc in molestie feugiat</p>
+                    <Button size="md" onClick={() => {
+                        navigate("/signup");
+                    }} className="my-5" variant="filled" color="black" radius="xl">Get Started</Button>
                 </div>
             </section>
 
@@ -24,7 +31,7 @@ const Home = () => {
                             adipiscing elit. Nulla fringilla nunc in molestie feugiat. Nunc auctor consectetur elit,
                             quis pulvina.
                         </p>
-                        <Button variant="filled" color="black" radius="xl">Read Our Blog</Button>
+                        <Button size="md" variant="filled" color="black" radius="xl">Read Our Blog</Button>
                     </div>
                     <div>
                         <div className="w-full h-120 grid grid-flow-col grid-rows-2 gap-x-4 gap-y-6">
@@ -41,7 +48,7 @@ const Home = () => {
                 <div className="grid grid-cols-2 gap-20 mx-4">
                     <div className="mt-10 mb-6">
                         <p className="font-medium text-[40px] mb-4">Learn About Us and What Sets Us Apart</p>
-                        <Button variant="filled" color="black" radius="xl">Read Our Blog</Button>
+                        <Button size="md" variant="filled" color="black" radius="xl">Read Our Blog</Button>
                     </div>
                     <div className="mb-10">
                         <div className="my-10 mx-4">
