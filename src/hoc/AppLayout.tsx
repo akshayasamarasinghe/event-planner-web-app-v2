@@ -14,6 +14,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "../state/store.ts";
 import {logOutFromServer} from "../state/auth/authSlice.ts";
 import {notifications} from "@mantine/notifications";
+import PublicView from "../pages/Events/PublicView.tsx";
 
 export const AppLayout = () => {
     const userFirstname = localStorage.getItem(LOGGED_IN_USER);
@@ -130,6 +131,7 @@ export const AppLayout = () => {
                             <Route path="/about" element={<About/>}/>
                             <Route path="/signup" element={<Signup/>}/>
                             <Route path="/login" element={<Login/>}/>
+                            <Route path="/invitation/:id" element={<PublicView/>}/>
 
                             <Route path="/app/events" element={<UserProtectedRoute><Events/></UserProtectedRoute>}/>
                             <Route path="/app/events/:id"

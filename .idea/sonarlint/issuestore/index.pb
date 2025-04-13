@@ -87,3 +87,11 @@ P
  server/services/event.service.js,b/7/b7387b218953b5aa9e131fdc32950a7e0f69dc00
 I
 src/components/NoData.tsx,6/9/69b970885cc440f1783ee3d331588345f64b2286
+O
+src/pages/Events/PublicView.tsx,9/b/9be39f137245ae6e0cf907aa85f16298f9a16091
+P
+ server/data-access/event.repo.js,2/2/2231c7fdcf2a6edbdb6a0cf1759f8ce7dcf1d5fa
+O
+server/data-access/rsvp.repo.js,4/3/43cebe1494cc37096f4a849a14c16f7f433b98a4
+E
+server/models/Rsvp.js,6/d/6d239dd1ba4e4d8d7d4bd8afd87b30770b0b47b4

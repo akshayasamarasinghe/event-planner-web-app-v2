@@ -10,6 +10,7 @@ const EventSchema = new mongoose.Schema({
     // end_time: {type: Schema.Types.Date},
     image_url: {type: Schema.Types.String},
     category: {type: [Schema.Types.String]},
+    rsvps: {type: [Schema.Types.Array]},
 
 }, {
     timestamps: true,

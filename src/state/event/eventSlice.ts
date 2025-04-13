@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, Draft, PayloadAction} from "@reduxjs/toolkit";
 import axios from "axios";
-import {BASE_URL} from "../../constants/constants.ts";
+import {BASE_URL, SERVELESS_URL} from "../../constants/constants.ts";
 
 interface EventState {
     event: any;
@@ -53,6 +53,30 @@ export const getEvents = createAsyncThunk(
     async (payload: any, {rejectWithValue}) => {
         try {
             const response = await axios.post(`${BASE_URL}/events/get-all`, payload);
+            return response.data;
+        } catch (err: any) {
+            throw rejectWithValue(err.response.data);
+        }
+    }
+);
+
+export const getInvitation = createAsyncThunk(
+    "event/invitation",
+    async (id: string, {rejectWithValue}) => {
+        try {
+            const response = await axios.get(`${SERVELESS_URL}/invitation/${id}`);
+            return response.data;
+        } catch (err: any) {
+            throw rejectWithValue(err.response.data);
+        }
+    }
+);
+
+export const invitationRsvp = createAsyncThunk(
+    "event/invitation/rsvp",
+    async (data: any, {rejectWithValue}) => {
+        try {
+            const response = await axios.post(`${SERVELESS_URL}/invitation/rsvp/${data?.id}`, data?.payload);
             return response.data;
         } catch (err: any) {
             throw rejectWithValue(err.response.data);

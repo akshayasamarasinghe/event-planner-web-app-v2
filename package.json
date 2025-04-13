@@ -12,6 +12,9 @@
     "deploy": "gh-pages -d dist",
     "lint": "eslint . --ext .js,.ts,.tsx --fix"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "@mantine/core": "7.17.1",
     "@mantine/dates": "^7.17.2",
