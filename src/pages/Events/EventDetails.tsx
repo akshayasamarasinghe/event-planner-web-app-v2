@@ -64,7 +64,7 @@ const EventDetails = () => {
 
                         {/* Right Column: Event Details */}
                         <Grid.Col span={6}>
-                            <Text weight={700} size="xl" mb="sm">
+                            <Text fw="700" size="xl" mb="sm">
                                 {event?.title}
                             </Text>
                             <Text size="sm"
@@ -75,7 +75,7 @@ const EventDetails = () => {
                             <CategoryTags categories={event?.category}></CategoryTags>
 
                             {/* Buttons: Edit, Delete, Share, Review */}
-                            <Group spacing="md" mb="xl" mt="xl">
+                            <Group gap="md" mb="xl" mt="xl">
                                 <Button variant="light" onClick={handleEdit}>
                                     Edit
                                 </Button>
@@ -88,7 +88,7 @@ const EventDetails = () => {
                             </Group>
 
                             {/* Review Section */}
-                            <Text weight={600} size="lg" mb="sm">
+                            <Text fw="600" size="lg" mb="sm">
                                 Reviews
                             </Text>
                             <Textarea
