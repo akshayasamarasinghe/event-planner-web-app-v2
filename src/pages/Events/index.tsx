@@ -83,7 +83,7 @@ const Events = () => {
                     {/* Category List on the Left */}
                     <div style={{width: '200px'}}>
                         <Stack>
-                            <Text weight={500}>Categories</Text>
+                            <Text fw="500">Categories</Text>
                             {categories.map((category) => (
                                 <Checkbox
                                     color="black"
@@ -98,7 +98,7 @@ const Events = () => {
                     {/* Event List on the Right */}
                     <div style={{flex: 1}}>
                         {/* "Create Your Own Event" Button */}
-                        <Group position="apart" mb="md">
+                        <Group justify="space-between" mb="md">
                             <TextInput
                                 placeholder="Search events..."
                                 value={search}
@@ -121,7 +121,7 @@ const Events = () => {
                                         <img src={event?.image_url} alt={event?.title}
                                              style={{width: '100%', height: '150px', objectFit: 'cover'}}/>
                                     </Card.Section>
-                                    <Text weight={500} mt="md">{event?.title}</Text>
+                                    <Text fw="500" mt="md">{event?.title}</Text>
                                     <Text size="sm"
                                           color="dimmed">{moment(event?.start_date).format("YYYY-MM-DD")} {event?.end_date ? ` - ${moment(event?.end_date).format("YYYY-MM-DD")}` : ""}</Text>
                                     <Text size="sm" mt="sm">{event?.description}</Text>
