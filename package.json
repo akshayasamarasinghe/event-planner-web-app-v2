@@ -15,11 +15,11 @@
     "node": "18.x"
   },
   "dependencies": {
-    "@mantine/core": "7.17.1",
-    "@mantine/dates": "^7.17.2",
-    "@mantine/form": "^7.17.2",
-    "@mantine/hooks": "7.17.1",
-    "@mantine/notifications": "^7.17.2",
+    "@mantine/core": "7.17.2",
+    "@mantine/dates": "7.17.2",
+    "@mantine/form": "7.17.2",
+    "@mantine/hooks": "7.17.2",
+    "@mantine/notifications": "7.17.2",
     "@mui/icons-material": "^6.4.7",
     "@mui/material": "^6.4.7",
     "@reduxjs/toolkit": "^2.6.1",
