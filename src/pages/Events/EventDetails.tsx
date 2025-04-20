@@ -8,18 +8,21 @@ import {getEvent} from "../../state/event/eventSlice.ts";
 import moment from "moment";
 import CategoryTags from "../../components/CategoryTags.tsx";
 import NoData from "../../components/NoData.tsx";
+import ShareMenu from "../../components/ShareMenu.tsx";
 
 const EventDetails = () => {
     const {id} = useParams<{ id: string }>(); // Get the event ID from the URL
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch | any>();
     const event: any = useSelector((state: RootState) => state.event.event);
+    const [url, setUrl] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);// Find the event by ID
 
     useEffect(() => {
         (async () => {
             setLoading(true);
             await dispatch(getEvent({_id: id}));
+            setUrl(`https://event-planner-qa.vercel.app/invitation/${id}`);
             setLoading(false);
         })();
     }, [id]);
@@ -35,10 +38,10 @@ const EventDetails = () => {
         navigate(`/app/events/add-edit/${event._id}`);
     };
 
-    const handleShare = () => {
-        alert('Event shared!');
-        // Perform share operation here
-    };
+    // const handleShare = () => {
+    //     alert('Event shared!');
+    //     // Perform share operation here
+    // };
 
     const handleReview = () => {
         alert('Review submitted!');
@@ -82,9 +85,7 @@ const EventDetails = () => {
                                 <Button color="red" onClick={handleDelete}>
                                     Delete
                                 </Button>
-                                <Button color="blue" onClick={handleShare}>
-                                    Share
-                                </Button>
+                                <ShareMenu url={url} title={event?.title}/>
                             </Group>
 
                             {/* Review Section */}
