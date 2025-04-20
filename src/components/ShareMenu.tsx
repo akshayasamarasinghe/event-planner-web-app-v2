@@ -8,7 +8,8 @@ const ShareMenu = ({url, title}: { url: string; title: string }) => {
     // const eventTitle = 'Check out this awesome event! 🎉';
 
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-    const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`;
+    const message = `Check out this awesome event! 🎉\n${url}`;
+    const whatsappShareUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
     return (
         <Menu shadow="md" width={200}>
             <Menu.Target>
