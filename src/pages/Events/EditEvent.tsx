@@ -1,22 +1,22 @@
 import {useEffect, useState} from 'react';
-import {Button, Card, Grid, Image, MultiSelect, Textarea, TextInput} from '@mantine/core';
+import {Button, Card, Image, MultiSelect, Textarea, TextInput} from '@mantine/core';
 import {isNotEmpty, useForm} from "@mantine/form";
 import {DatePickerInput} from '@mantine/dates';
 import imagePlaceHolder from '../../assets/images/image-placeholder.jpg';
 import moment from 'moment';
-import {notifications} from "@mantine/notifications";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../state/store.ts";
 import {createEvent, getEvent, updateEvent} from "../../state/event/eventSlice.ts";
 import {useNavigate, useParams} from "react-router-dom";
 import Loading from "../../components/Loading.tsx";
-import {CategoryData} from "../../constants/constants.ts";
 import CategoryTags from "../../components/CategoryTags.tsx";
+import {LOGGED_IN_USER_ID} from "../../constants/constants.ts";
+import {notifications} from "@mantine/notifications";
 
 const imageUrlRegex = /^(https?:\/\/)([\w.-]+)([\/\w.-]*)*$/;
 
 const EditEvent = () => {
-    const {id} = useParams<{ id: string }>();
+    let {id} = useParams<{ id: string }>();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch | any>();
     const selectedEvent: any = useSelector((state: RootState) => state.event.event);
@@ -81,8 +81,6 @@ const EditEvent = () => {
         validateInputOnChange: true
     });
 
-    console.log(CategoryData["MUSIC"]);
-
     const formOnSubmit = eventForm.onSubmit(async (values) => {
         console.log(values);
         setLoading(true);
@@ -95,41 +93,50 @@ const EditEvent = () => {
                         notifications.show({
                             color: "red",
                             title: 'Error',
-                            message: 'System Error! 🌟',
+                            message: 'System Error!',
+                            position: 'top-right'
                         })
                         break;
                     case "event/update/fulfilled":
                         notifications.show({
                             color: "green",
                             title: 'Success',
-                            message: 'Successful! 🌟',
+                            message: 'Successful!',
+                            position: 'top-right'
                         })
                         console.log("success");
                         navigate("/app/events");
                         break;
                 }
             } else {
-                const payload = await dispatch(createEvent(values));
+                const payload = await dispatch(createEvent({
+                    ...values,
+                    user: localStorage?.getItem(LOGGED_IN_USER_ID)
+                }));
                 setLoading(false);
                 switch (payload.type) {
                     case "event/create/rejected":
                         notifications.show({
                             color: "red",
                             title: 'Error',
-                            message: 'System Error! 🌟',
+                            message: 'System Error!',
+                            position: 'top-right'
                         })
                         break;
                     case "event/create/fulfilled":
                         notifications.show({
                             color: "green",
                             title: 'Success',
-                            message: 'Successful! 🌟',
+                            message: 'Successful!',
+                            position: 'top-right'
                         })
                         console.log("success");
                         navigate("/app/events");
                         break;
                 }
             }
+            eventForm.reset();
+            setEvent({});
         } catch (e) {
             setLoading(false);
             throw e;
@@ -153,9 +160,9 @@ const EditEvent = () => {
             {loading && <Loading/>}
             <section>
                 <p className="mb-4 text-xl font-semibold">{id ? "Edit" : "Add"} Event</p>
-                <Grid gutter="xl" p="md">
+                <div className="grid grid-cols-12 gap-8 p-md">
                     {/* Left Column:Event Preview Card */}
-                    <Grid.Col span={6}>
+                    <div className="col-span-12 lg:col-span-6 order-2 lg:order-1">
                         <Card shadow="sm" padding="lg" radius="md">
                             <Card.Section>
                                 <Image
@@ -172,10 +179,10 @@ const EditEvent = () => {
                                 <CategoryTags categories={eventForm?.values?.category}></CategoryTags>
                             </div>
                         </Card>
-                    </Grid.Col>
+                    </div>
 
                     {/* Right Column: Event Form */}
-                    <Grid.Col span={6}>
+                    <div className="col-span-12 lg:col-span-6 order-1 lg:order-2">
                         <form className="flex flex-col gap-5" onSubmit={formOnSubmit}>
                             <TextInput
                                 size="md"
@@ -228,14 +235,17 @@ const EditEvent = () => {
                                 {...eventForm.getInputProps('category')}
                             />
                             <div className="flex justify-end gap-3 mt-3">
-                                <Button size="md" className="my-5 w-full" variant="outline" color="black" radius="xl"
-                                        type="submit">Cancel</Button>
-                                <Button size="md" className="my-5 w-full" variant="filled" color="black" radius="xl"
+                                <Button size="md" className="my-5 w-full" variant="outline" color="black"
+                                        radius="md" onClick={() => {
+                                    eventForm?.reset();
+                                    id = ""
+                                }}>Cancel</Button>
+                                <Button size="md" className="my-5 w-full" variant="filled" color="black" radius="md"
                                         type="submit">Save</Button>
                             </div>
                         </form>
-                    </Grid.Col>
-                </Grid>
+                    </div>
+                </div>
             </section>
         </div>
     );

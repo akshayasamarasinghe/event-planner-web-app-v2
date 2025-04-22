@@ -1,5 +1,74 @@
-import { createTheme } from "@mantine/core";
+import {createTheme} from "@mantine/core";
 
 export const theme = createTheme({
-  /* Put your mantine theme override here */
-});
+        colors: {
+            primary: [
+                "#F3F2F7",
+                "#D9D4E9",
+                "#C0B5DF",
+                "#A695DB",
+                "#8C71DE",
+                "#7048E8",
+                "#643FD2",
+                "#5D3EB8",
+                "#59439B",
+                "#544483",
+                "#4E4371",
+                "#494061",
+            ],
+            green: [
+                "#ddfff0",
+                "#b4f8d8",
+                "#89f3c0",
+                "#5deda7",
+                "#31e890",
+                "#17ce76",
+                "#0ba05b",
+                "#027341",
+                "#004625",
+                "#001908",
+            ],
+            blue: [
+                "#e3f3fc",
+                "#b7d8f5",
+                "#8bbdec",
+                "#5fa2e4",
+                "#3387db",
+                "#0277b2",
+                "#025d8e",
+                "#02466c",
+                "#012e49",
+                "#011726",
+            ],
+            orange: [
+                "#fdf4e3",
+                "#f8ddb3",
+                "#f3c782",
+                "#eeaf50",
+                "#e9991f",
+                "#d9861b",
+                "#ae6b15",
+                "#84510f",
+                "#5a370a",
+                "#2f1d04",
+            ]
+        },
+        primaryColor: "primary",
+        primaryShade: {light: 5, dark: 6},
+        // shadows: {
+        //     md: '1px 1px 3px rgba(0, 0, 0, .25)',
+        //     xl: '5px 5px 3px rgba(0, 0, 0, .25)',
+        // },
+        fontFamily: "Inter, sans-serif",
+        defaultRadius: "md",
+        // fontFamilyMonospace: 'Monaco, Courier, monospace',
+        // headings: {fontFamily: 'Greycliff CF, sans-serif'},
+        // fontSizes: {
+        //     'xs': 12,
+        //     "sm": 14,
+        //     "md": 14,
+        //     "lg": 14,
+        //     "xl": 16,
+        // },
+    }
+);

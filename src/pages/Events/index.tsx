@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, Checkbox, Group, SimpleGrid, Stack, Text, TextInput} from '@mantine/core';
+import {Button, Card, Checkbox, Group, Stack, Text, TextInput} from '@mantine/core';
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../state/store.ts";
@@ -81,7 +81,7 @@ const Events = () => {
             <section>
                 <div style={{display: 'flex', gap: '20px'}}>
                     {/* Category List on the Left */}
-                    <div style={{width: '200px'}}>
+                    <div className="w-[100px] lg:w-[200px]">
                         <Stack>
                             <Text fw="500">Categories</Text>
                             {categories.map((category) => (
@@ -105,7 +105,7 @@ const Events = () => {
                                 onChange={handleSearch}
                                 style={{flex: 1}}
                             />
-                            <Button color="teal" onClick={handleCreateEvent}>
+                            <Button color="black" onClick={handleCreateEvent}>
                                 Create Your Own Event
                             </Button>
                         </Group>
@@ -114,7 +114,7 @@ const Events = () => {
                         {!events?.length && (
                             <NoData text={"No Data to Show!"}/>
                         )}
-                        <SimpleGrid cols={3}>
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                             {events?.length > 0 && events?.map((event: any) => (
                                 <Card key={event?._id} shadow="sm" padding="lg">
                                     <Card.Section>
@@ -126,13 +126,13 @@ const Events = () => {
                                           color="dimmed">{moment(event?.start_date).format("YYYY-MM-DD")} {event?.end_date ? ` - ${moment(event?.end_date).format("YYYY-MM-DD")}` : ""}</Text>
                                     <Text size="sm" mt="sm">{event?.description}</Text>
                                     <CategoryTags categories={event?.category}></CategoryTags>
-                                    <Button variant="light" fullWidth mt="md" color="black"
+                                    <Button color="black" variant="light" fullWidth mt="md"
                                             onClick={() => navigate(`/app/events/${event?._id}`)}>
                                         View Details
                                     </Button>
                                 </Card>
                             ))}
-                        </SimpleGrid>
+                        </div>
                     </div>
                 </div>
             </section>

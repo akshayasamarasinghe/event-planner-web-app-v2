@@ -1,12 +1,13 @@
-import {Button, Checkbox, Group, Image, PasswordInput, Progress, Select, TextInput} from "@mantine/core";
+import {Button, Checkbox, Group, PasswordInput, Progress, Select, TextInput} from "@mantine/core";
 import {isNotEmpty, useForm} from "@mantine/form";
 import {useState} from "react";
 import {validateEmail} from "../../../utils.ts";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../../state/store.ts";
-import {notifications} from "@mantine/notifications";
 import {useNavigate} from "react-router-dom";
 import {register} from "../../../state/auth/authSlice.ts";
+import {notifications} from "@mantine/notifications";
+import CoverPhoto from "../../../../src/assets/images/cover-two.jpeg";
 
 const Signup = () => {
     const [value, setValue] = useState("");
@@ -80,17 +81,19 @@ const Signup = () => {
                     notifications.show({
                         color: "red",
                         title: 'Error',
-                        message: 'System Error! 🌟',
+                        message: 'System Error!',
+                        position: 'top-right'
                     })
                     break;
                 case "auth/register/fulfilled":
                     notifications.show({
                         color: "green",
                         title: 'Success',
-                        message: 'Successful! 🌟',
+                        message: 'Successful!',
+                        position: 'top-right'
                     })
                     console.log("success");
-                    navigate("/");
+                    navigate("/login");
                     break;
             }
         } catch (e) {
@@ -113,16 +116,17 @@ const Signup = () => {
         <div className="container mx-auto">
             <section>
                 <div className="grid grid-cols-1 lg:grid-cols-2 border-1 border-gray-300 rounded-xl">
-                    <div className="m-16">
-                        <p className="font-bold text-[40px] mb-2">Signup</p>
-                        <p className="mb-10">Already have an Account, <a className="underline" href="/login">Login</a>
+                    <div className="lg:mx-16">
+                        <p className="text-center lg:text-start font-bold text-[40px] mb-2">Signup</p>
+                        <p className="text-center lg:text-start mb-10">Already have an Account, <a className="underline"
+                                                                                                   href="/login">Login</a>
                         </p>
 
                         <form className="flex flex-col gap-4 mr-4" onSubmit={
                             onSubmit}>
                             <Select
                                 size="md"
-                                radius="xl"
+                                radius="md"
                                 label="User Type"
                                 placeholder="Select Type"
                                 data={[
@@ -133,7 +137,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 size="md"
-                                radius="xl"
+                                radius="md"
                                 withAsterisk
                                 label="First Name"
                                 placeholder="First Name"
@@ -142,7 +146,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 size="md"
-                                radius="xl"
+                                radius="md"
                                 withAsterisk
                                 label="Last Name"
                                 placeholder="Last Name"
@@ -151,7 +155,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 size="md"
-                                radius="xl"
+                                radius="md"
                                 withAsterisk
                                 label="Email"
                                 placeholder="your@email.com"
@@ -160,7 +164,7 @@ const Signup = () => {
                             />
                             <TextInput
                                 size="md"
-                                radius="xl"
+                                radius="md"
                                 withAsterisk
                                 label="Phone Number"
                                 placeholder="Phone Number"
@@ -170,7 +174,7 @@ const Signup = () => {
                             <div>
                                 <PasswordInput
                                     size="md"
-                                    radius="xl"
+                                    radius="md"
                                     label="Password"
                                     placeholder="Password"
                                     data-testid="password"
@@ -186,7 +190,7 @@ const Signup = () => {
 
                             <PasswordInput
                                 size="md"
-                                radius="xl"
+                                radius="md"
                                 label="Confirm Password"
                                 data-testid="confirmPassword"
                                 placeholder="Confirm Password"
@@ -202,15 +206,14 @@ const Signup = () => {
                             />
 
                             {/*<div className="flex">*/}
-                            <Button size="md" className="my-5 w-full" variant="filled" color="black" radius="xl"
+                            <Button size="md" className="my-5 w-full" variant="filled" color="black" radius="md"
                                     type="submit">Create Account</Button>
                             {/*</div>*/}
                         </form>
                     </div>
-                    <div className="flex p-1">
-                        <Image
-                            radius="md"
-                            src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/bg-7.png"
+                    <div className="hidden lg:block h-[600px] border-1 border-black rounded-lg">
+                        <img className="rounded-lg object-fill w-full h-full"
+                             src={CoverPhoto} alt="cover photo"
                         />
                     </div>
                 </div>

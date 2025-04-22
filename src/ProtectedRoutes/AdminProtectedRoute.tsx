@@ -2,7 +2,7 @@ import { Navigate } from "react-router-dom";
 import {JSX} from "react";
 import {useAuth} from "../pages/Auth/AuthContext.tsx";
 
-const UserProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const AdminProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const auth: any = useAuth();
     console.log(auth, "auth");
 
@@ -13,4 +13,4 @@ const UserProtectedRoute = ({ children }: { children: JSX.Element }) => {
     return children;
 };
 
-export default UserProtectedRoute;
+export default AdminProtectedRoute;

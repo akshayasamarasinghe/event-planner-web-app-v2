@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Button, Card, Grid, Group, Image, Text, Textarea} from '@mantine/core';
+import {Button, Card, Group, Image, Text, Textarea} from '@mantine/core';
 import Loading from "../../components/Loading.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../state/store.ts";
@@ -9,9 +9,11 @@ import moment from "moment";
 import CategoryTags from "../../components/CategoryTags.tsx";
 import NoData from "../../components/NoData.tsx";
 import ShareMenu from "../../components/ShareMenu.tsx";
+import {LOGGED_IN_USER_ID} from "../../constants/constants.ts";
 
 const EventDetails = () => {
     const {id} = useParams<{ id: string }>(); // Get the event ID from the URL
+    const loggedInUserId = localStorage?.getItem(LOGGED_IN_USER_ID); // Get the event ID from the URL
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch | any>();
     const event: any = useSelector((state: RootState) => state.event.event);
@@ -54,19 +56,19 @@ const EventDetails = () => {
             <section>
                 {!event._id && <NoData text={"Event Not Found!"}/>}
                 {event._id && <Card shadow="sm" padding="lg">
-                    <Grid>
+                    <div className="grid grid-cols-12 gap-8">
                         {/* Left Column: Event Image */}
-                        <Grid.Col span={6}>
+                        <div className="col-span-12 lg:col-span-6">
                             <Image
                                 src={event?.image_url}
                                 alt={event?.title}
                                 radius="md"
                                 style={{width: '100%', height: '100%'}}
                             />
-                        </Grid.Col>
+                        </div>
 
                         {/* Right Column: Event Details */}
-                        <Grid.Col span={6}>
+                        <div className="col-span-12 lg:col-span-6">
                             <Text fw="700" size="xl" mb="sm">
                                 {event?.title}
                             </Text>
@@ -79,26 +81,30 @@ const EventDetails = () => {
 
                             {/* Buttons: Edit, Delete, Share, Review */}
                             <Group gap="md" mb="xl" mt="xl">
-                                <Button variant="light" onClick={handleEdit}>
-                                    Edit
-                                </Button>
-                                <Button color="red" onClick={handleDelete}>
-                                    Delete
-                                </Button>
+                                {loggedInUserId === event?.user &&
+                                    <Button variant="light" onClick={handleEdit}>
+                                        Edit
+                                    </Button>}
+                                {loggedInUserId === event?.user &&
+                                    <Button color="red" onClick={handleDelete}>
+                                        Delete
+                                    </Button>}
                                 <ShareMenu url={url} title={event?.title}/>
                             </Group>
 
                             {/* Review Section */}
-                            <Text fw="600" size="lg" mb="sm">
-                                Reviews
-                            </Text>
-                            <Textarea
-                                placeholder="Write your review..."
-                                mb="md"
-                            />
-                            <Button onClick={handleReview}>Submit Review</Button>
-                        </Grid.Col>
-                    </Grid>
+                            {loggedInUserId !== event?.user && <div>
+                                <Text fw="600" size="lg" mb="sm">
+                                    Reviews
+                                </Text>
+                                <Textarea
+                                    placeholder="Write your review..."
+                                    mb="md"
+                                />
+                                <Button color="black" onClick={handleReview}>Submit Review</Button>
+                            </div>}
+                        </div>
+                    </div>
                 </Card>}
             </section>
         </div>
