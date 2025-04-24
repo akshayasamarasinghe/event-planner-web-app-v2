@@ -1,120 +1,131 @@
-import {Button, PasswordInput, TextInput} from "@mantine/core";
-import {isNotEmpty, useForm} from "@mantine/form";
-import {validateEmail} from "../../../utils.ts";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../../state/store.ts";
-import {login} from "../../../state/auth/authSlice.ts";
-import {notifications} from "@mantine/notifications";
+import { Button, PasswordInput, TextInput, Divider } from "@mantine/core";
+import { isNotEmpty, useForm } from "@mantine/form";
+import { validateEmail } from "../../../utils.ts";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../state/store.ts";
+import { login } from "../../../state/auth/authSlice.ts";
+import { notifications } from "@mantine/notifications";
 import CoverPhoto from "../../../../src/assets/images/cover-two.jpeg";
+import login1 from "../../../assets/images/login.jpg"
 
 const Login = () => {
-    const dispatch = useDispatch<AppDispatch | any>();
+  const dispatch = useDispatch<AppDispatch | any>();
 
+  const form = useForm({
+    mode: "uncontrolled",
+    initialValues: {
+      email: "",
+      password: "",
+    },
 
-    const form = useForm({
-        mode: 'uncontrolled',
-        initialValues: {
-            email: '',
-            password: "",
-        },
+    validate: {
+      email: (_, values) => validateEmail(values),
+      password: isNotEmpty("Password is required"),
+    },
+    validateInputOnChange: true,
+  });
 
-        validate: {
-            email: (_, values) => validateEmail(values),
-            password: isNotEmpty("Password is required"),
-        },
-        validateInputOnChange: true
-    });
+  const onSubmit = form.onSubmit(async (values: any) => {
+    try {
+      const payload = await dispatch(login(values));
 
-    const onSubmit = form.onSubmit(async (values: any) => {
-        try {
-            console.log(values);
-            // setLoading(true);
-            const payload = await dispatch(login(values));
-            console.log(payload, "payload");
-            // setLoading(false);
-            switch (payload.type) {
-                case "auth/login/rejected":
-                    notifications.show({
-                        color: "red",
-                        title: 'Error',
-                        message: 'System Error!',
-                        position: 'top-right'
-                    })
-                    break;
-                case "auth/login/fulfilled":
-                    notifications.show({
-                        color: "green",
-                        title: 'Success',
-                        message: 'Successful!',
-                        position: 'top-right'
-                    })
-                    console.log("success");
-                    if (payload?.payload?.user?.type === "ADMIN") {
-                        location.replace("/admin/events");
-                    }
-                    if (payload?.payload?.user?.type === "USER") {
-                        location.replace("/app/events");
+      switch (payload.type) {
+        case "auth/login/rejected":
+          notifications.show({
+            color: "red",
+            title: "Login Failed",
+            message: "Please check your credentials and try again.",
+            position: "top-right",
+          });
+          break;
+        case "auth/login/fulfilled":
+          notifications.show({
+            color: "green",
+            title: "Login Successful",
+            message: "Welcome back!",
+            position: "top-right",
+          });
+          if (payload?.payload?.user?.type === "ADMIN") {
+            location.replace("/admin/events");
+          } else {
+            location.replace("/app/events");
+          }
+          break;
+      }
+    } catch (e) {
+      console.error("Login error", e);
+    }
+  });
 
-                    }
-                    break;
-            }
-        } catch (e) {
-            throw e;
-        }
-    });
+  return (
+    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-blue-100 flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-6xl bg-white shadow-xl rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+        {/* Form Side */}
+        <div className="p-10 lg:p-16">
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">Welcome Back</h1>
+          <p className="text-gray-600 mb-8">
+            Don't have an account?{" "}
+            <a href="/signup" className="text-blue-600 hover:underline">
+              Sign up here
+            </a>
+          </p>
 
-    return (
-        <div className="container mx-auto">
-            <section>
-                <div className="grid grid-cols-1 lg:grid-cols-2 border-1 border-gray-300 rounded-xl">
-                    <div className="lg:mx-16">
-                        <p className="text-center lg:text-start font-bold text-[40px] mb-2">Login</p>
-                        <p className="text-center lg:text-start mb-10">If you don't have an account, <a
-                            className="underline"
-                            href="/signup">Signup</a>
-                        </p>
+          <form className="flex flex-col gap-6" onSubmit={onSubmit}>
+            <TextInput
+              size="md"
+              radius="md"
+              withAsterisk
+              label="Email"
+              placeholder="your@email.com"
+              key={form.key("email")}
+              {...form.getInputProps("email")}
+            />
 
-                        <form className="flex flex-col gap-4 mr-4" onSubmit={
-                            onSubmit}>
-                            <TextInput
-                                size="md"
-                                radius="md"
-                                withAsterisk
-                                label="Email"
-                                placeholder="your@email.com"
-                                key={form.key('email')}
-                                {...form.getInputProps('email')}
-                            />
-                            <div>
-                                <PasswordInput
-                                    size="md"
-                                    radius="md"
-                                    label="Password"
-                                    placeholder="Password"
-                                    data-testid="password"
-                                    {...form.getInputProps("password")}
-                                    // onFocus={() => setPasswordValidPop(strength !== 100)}
-                                />
-                                {/*<Group grow mt="xs" ml="xl" mr="xl">*/}
-                                {/*    {bars}*/}
-                                {/*</Group>*/}
-                            </div>
+            <PasswordInput
+              size="md"
+              radius="md"
+              label="Password"
+              placeholder="Password"
+              {...form.getInputProps("password")}
+            />
 
-                            {/*<div className="flex">*/}
-                            <Button size="md" className="my-5 w-full" variant="filled" color="black" radius="md"
-                                    type="submit">Login</Button>
-                            {/*</div>*/}
-                        </form>
-                    </div>
-                    <div className="hidden lg:block h-[600px] border-1 border-black rounded-lg">
-                        <img className="rounded-lg object-fill w-full h-full"
-                             src={CoverPhoto} alt="cover photo"
-                        />
-                    </div>
-                </div>
-            </section>
+            <Button
+              size="md"
+              className="mt-2"
+              variant="filled"
+              color="blue"
+              radius="xl"
+              type="submit"
+              fullWidth
+            >
+              Login
+            </Button>
+          </form>
+
+          <Divider my="lg" label="Or continue with" labelPosition="center" />
+
+          {/* Social Login Placeholder (Optional) */}
+          <div className="flex gap-4 justify-center mt-4">
+            <button className="border px-4 py-2 rounded-md hover:bg-gray-100">
+              <span>🌐 Google</span>
+            </button>
+            <button className="border px-4 py-2 rounded-md hover:bg-gray-100">
+              <span>📘 Facebook</span>
+            </button>
+          </div>
         </div>
-    )
-}
+
+        {/* Image Side */}
+        <div className="hidden lg:block">
+          <img
+            src={login1}
+            alt="Cover"
+            className="object-cover w-full h-full rounded-r-3xl"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Login;
