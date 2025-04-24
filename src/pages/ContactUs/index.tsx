@@ -1,83 +1,116 @@
-import {Button, Card, Group, Textarea, TextInput, Title} from "@mantine/core";
-import {isNotEmpty, useForm} from "@mantine/form";
-import {notifications} from "@mantine/notifications";
-
-const ContactUs = () => {
+import {
+    Button,
+    Card,
+    Group,
+    Textarea,
+    TextInput,
+    Title,
+    Divider,
+  } from "@mantine/core";
+  import { isNotEmpty, useForm } from "@mantine/form";
+  import { notifications } from "@mantine/notifications";
+  
+  const ContactUs = () => {
     const form = useForm({
-        initialValues: {
-            name: "",
-            email: "",
-            message: "",
-        },
-        validate: {
-            name: isNotEmpty("Name is required"),
-            email: (value) =>
-                /^\S+@\S+$/.test(value) ? null : "Invalid email",
-            message: isNotEmpty("Message cannot be empty"),
-        },
-        validateInputOnChange: true,
+      initialValues: {
+        name: "",
+        email: "",
+        message: "",
+      },
+      validate: {
+        name: isNotEmpty("Name is required"),
+        email: (value) =>
+          /^\S+@\S+$/.test(value) ? null : "Invalid email",
+        message: isNotEmpty("Message cannot be empty"),
+      },
+      validateInputOnChange: true,
     });
-
+  
     const handleSubmit = (values: typeof form.values) => {
-        console.log("Form submitted:", values);
-        notifications.show({
-            title: "Message Sent",
-            message: "We’ll get back to you soon!",
-            color: "green",
-        });
-        form.reset();
+      console.log("Form submitted:", values);
+      notifications.show({
+        title: "Message Sent",
+        message: "We’ll get back to you soon!",
+        color: "green",
+      });
+      form.reset();
     };
-
+  
     return (
-        <div className="container mx-auto px-4 py-10">
-            <Card shadow="sm" padding="xl" radius="md">
-                <Title order={1} className="mb-4">
-                    Contact Us
-                </Title>
-                <p className="mb-6">
-                    Got questions, feedback, or need help? Fill out the form below and our team will respond as soon as
-                    possible.
-                </p>
-
-                <form onSubmit={form.onSubmit(handleSubmit)} className="space-y-4">
-                    <TextInput
-                        label="Name"
-                        placeholder="Your Name"
-                        radius="xl"
-                        size="md"
-                        withAsterisk
-                        {...form.getInputProps("name")}
-                    />
-
-                    <TextInput
-                        label="Email"
-                        placeholder="you@example.com"
-                        radius="xl"
-                        size="md"
-                        withAsterisk
-                        {...form.getInputProps("email")}
-                    />
-
-                    <Textarea
-                        label="Message"
-                        placeholder="Type your message here..."
-                        radius="md"
-                        size="md"
-                        autosize
-                        minRows={4}
-                        withAsterisk
-                        {...form.getInputProps("message")}
-                    />
-
-                    <Group justify="flex-end" mt="md">
-                        <Button type="submit" radius="xl" size="md" color="black">
-                            Send Message
-                        </Button>
-                    </Group>
-                </form>
-            </Card>
-        </div>
+      <div className="min-h-screen bg-gradient-to-r from-sky-50 to-indigo-100 flex items-center justify-center py-16 px-4">
+        <Card
+          shadow="lg"
+          padding="2rem"
+          radius="lg"
+          className="w-full max-w-2xl bg-white/90 backdrop-blur-md border border-gray-200"
+        >
+          <Title order={2} className="mb-2 text-center text-gray-800">
+            Contact Us
+          </Title>
+          <p className="text-center text-gray-600 mb-6">
+            We'd love to hear from you! Reach out with questions, ideas or feedback.
+          </p>
+  
+          <Divider my="md" />
+  
+          <form onSubmit={form.onSubmit(handleSubmit)} className="space-y-5">
+            <TextInput
+              label="Full Name"
+              placeholder="John Doe"
+              radius="md"
+              size="md"
+              withAsterisk
+              classNames={{
+                input: "bg-white",
+                label: "text-gray-700 font-medium mb-1",
+              }}
+              {...form.getInputProps("name")}
+            />
+  
+            <TextInput
+              label="Email Address"
+              placeholder="you@example.com"
+              radius="md"
+              size="md"
+              withAsterisk
+              classNames={{
+                input: "bg-white",
+                label: "text-gray-700 font-medium mb-1",
+              }}
+              {...form.getInputProps("email")}
+            />
+  
+            <Textarea
+              label="Your Message"
+              placeholder="Type your message here..."
+              radius="md"
+              size="md"
+              autosize
+              minRows={4}
+              withAsterisk
+              classNames={{
+                input: "bg-white",
+                label: "text-gray-700 font-medium mb-1",
+              }}
+              {...form.getInputProps("message")}
+            />
+  
+            <Group position="right" mt="md">
+              <Button
+                type="submit"
+                radius="xl"
+                size="md"
+                color="indigo"
+                className="transition-all duration-200 hover:scale-105"
+              >
+                Send Message
+              </Button>
+            </Group>
+          </form>
+        </Card>
+      </div>
     );
-};
-
-export default ContactUs;
+  };
+  
+  export default ContactUs;
+  
