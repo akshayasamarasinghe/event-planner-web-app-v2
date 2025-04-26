@@ -77,7 +77,7 @@ const Signup = () => {
         try {
             setLoading(true);
             const payload = await dispatch(register(values));
-            setLoading(true);
+            setLoading(false);
             switch (payload.type) {
                 case "auth/register/rejected":
                     setModalType('error');

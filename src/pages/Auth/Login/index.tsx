@@ -35,7 +35,7 @@ const Login = () => {
         try {
             setLoading(true);
             const payload = await dispatch(login(values));
-            setLoading(true);
+            setLoading(false);
             switch (payload.type) {
                 case "auth/login/rejected":
                     setModalType('error');
