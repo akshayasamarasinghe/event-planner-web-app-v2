@@ -1,5 +1,5 @@
-import { AppShell, Menu, NavLink } from '@mantine/core';
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";  // Use Navigate for redirect
+import {AppShell, Menu, NavLink} from '@mantine/core';
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom"; // Use Navigate for redirect
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Events from '../pages/Events';
@@ -9,20 +9,22 @@ import EventEditPage from "../pages/Events/EditEvent.tsx";
 import Signup from "../pages/Auth/Signup";
 import Login from "../pages/Auth/Login";
 import UserProtectedRoute from "../ProtectedRoutes/UserProtectedRoute.tsx";
-import { AuthProvider } from "../pages/Auth/AuthContext.tsx";
-import { LOGGED_IN_USER, LOGGED_IN_USER_TYPE } from "../constants/constants.ts";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../state/store.ts";
-import { logOutFromServer } from "../state/auth/authSlice.ts";
-import { notifications } from "@mantine/notifications";
+import {AuthProvider} from "../pages/Auth/AuthContext.tsx";
+import {LOGGED_IN_USER, LOGGED_IN_USER_TYPE} from "../constants/constants.ts";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../state/store.ts";
+import {logOutFromServer} from "../state/auth/authSlice.ts";
+import {notifications} from "@mantine/notifications";
 import PublicView from "../pages/Events/PublicView.tsx";
 import AdminProtectedRoute from "../ProtectedRoutes/AdminProtectedRoute.tsx";
 import Dashboard from "../pages/Admin/Dashboard";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import ContactUs from "../pages/ContactUs";
-import Logo from "../../src/assets/images/logo.png";
+import Logo from "../../src/assets/images/logo-new.png";
 import UpgradePlan from '../pages/UpgradePlan/index.tsx';
 import PaymentPage from '../pages/Admin/Payments/index.tsx';
+import Blog from '../pages/BlogPage/index.tsx';
+import ReadMorePage from "../pages/BlogPage/ReadMorePage.tsx";
 
 export const AppLayout = () => {
     const userFirstname = localStorage.getItem(LOGGED_IN_USER);
@@ -61,16 +63,25 @@ export const AppLayout = () => {
             <BrowserRouter>
                 <AppShell
                     className="bg-[#D9D4E9]"
-                    header={{ height: 70 }}
+                    header={{height: 70}}
                     padding="md"
                 >
                     <AppShell.Header>
                         <div className="container mx-auto">
                             <div className="flex justify-between">
                                 <div className="h-10">
-                                    <img className="py-3" src={Logo} height={20} width={130} alt="logo-image" />
+                                    <img className="py-3" src={Logo} height={25} width={135} alt="logo-image"/>
                                 </div>
                                 <div className="flex w-[500px] pt-2">
+                                    {userType !== "ADMIN" && (
+                                        <>
+                                            <NavLink
+                                                active={activePath.startsWith("/home")}
+                                                href="/home"
+                                                label="Home"
+                                            />
+                                        </>
+                                    )}
                                     {/* Admin Menu */}
                                     {userType === "ADMIN" && (
                                         <>
@@ -85,8 +96,8 @@ export const AppLayout = () => {
                                                 label="Events"
                                             />
                                             <NavLink
-                                                active={activePath.startsWith("/admin/PaymentPage")}
-                                                href="/admin/PaymentPage"
+                                                active={activePath.startsWith("/admin/payments")}
+                                                href="/admin/payments"
                                                 label="Payments"
                                             />
                                         </>
@@ -96,29 +107,24 @@ export const AppLayout = () => {
                                     {userType === "USER" && (
                                         <>
                                             <NavLink
-                                                active={activePath.startsWith("/PaymentPage")}
-                                                href="/PaymentPage"
-                                                label="Payments"
-                                            />
-                                            <NavLink
-                                                active={activePath.startsWith("/home")}
-                                                href="/home"
-                                                label="Home"
-                                            />
-                                            <NavLink
                                                 active={activePath.startsWith("/app/events")}
                                                 href="/app/events"
                                                 label="Events"
                                             />
+                                            {/*<NavLink*/}
+                                            {/*    active={activePath.startsWith("/payments")}*/}
+                                            {/*    href="/payments"*/}
+                                            {/*    label="Payments"*/}
+                                            {/*/>*/}
                                             <NavLink
-                                                active={activePath.startsWith("/UpgradePlan")}
-                                                href="/UpgradePlan"
+                                                active={activePath.startsWith("/plans")}
+                                                href="/plans"
                                                 label="Plans"
                                             />
                                             <NavLink
-                                                active={activePath.startsWith("/blogs")}
-                                                href="/blogs"
-                                                label="Blogs"
+                                                active={activePath.startsWith("/blog")}
+                                                href="/blog"
+                                                label="Blog"
                                             />
                                         </>
                                     )}
@@ -150,7 +156,8 @@ export const AppLayout = () => {
                                     {userFirstname ? (
                                         <Menu>
                                             <Menu.Target>
-                                                <div className="flex items-center border-1 border-gray-300 rounded-lg m-1 hover:cursor-pointer">
+                                                <div
+                                                    className="flex items-center border-1 border-gray-300 rounded-lg m-1 hover:cursor-pointer">
                                                     <div className="m-2">
                                                         <p className="text-[16px]">{userFirstname}</p>
                                                         <p className="text-[10px]">{userType}</p>
@@ -167,7 +174,7 @@ export const AppLayout = () => {
                                             </Menu.Dropdown>
                                         </Menu>
                                     ) : (
-                                        <div className="my-4"></div>
+                                        <div className="w-8 h-8 my-4"></div>
                                     )}
                                 </div>
                             </div>
@@ -177,23 +184,32 @@ export const AppLayout = () => {
                     <AppShell.Main>
                         <Routes>
                             {/* Redirect to Home as the default route */}
-                            <Route path="/" element={<Navigate to="/home" replace />} />
+                            <Route path="/" element={<Navigate to="/home" replace/>}/>
 
                             {/* Your other routes */}
-                            <Route path="/home" element={<Home />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/signup" element={<Signup />} />
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/contact-us" element={<ContactUs />} />
-                            <Route path="/invitation/:id" element={<PublicView />} />
-                            <Route path="/UpgradePlan" element={<UserProtectedRoute><UpgradePlan /></UserProtectedRoute>} />
-                            <Route path="/app/events" element={<UserProtectedRoute><Events /></UserProtectedRoute>} />
-                            <Route path="/app/events/:id" element={<UserProtectedRoute><EventDetailsPage /></UserProtectedRoute>} />
-                            <Route path="/app/events/add-edit" element={<UserProtectedRoute><EventEditPage /></UserProtectedRoute>} />
-                            <Route path="/app/events/add-edit/:id" element={<UserProtectedRoute><EventEditPage /></UserProtectedRoute>} />
-                            <Route path="/admin/events" element={<AdminProtectedRoute><AdminEvents /></AdminProtectedRoute>} />
-                            <Route path="/admin/dashboard" element={<AdminProtectedRoute><Dashboard /></AdminProtectedRoute>} />
-                            <Route path="/admin/PaymentPage" element={<AdminProtectedRoute><PaymentPage /></AdminProtectedRoute>} />
+                            <Route path="/home" element={<Home/>}/>
+                            <Route path="/blog" element={<Blog/>}/>
+                            <Route path="/blog/:id" element={<ReadMorePage/>}/>
+                            <Route path="/about" element={<About/>}/>
+                            <Route path="/signup" element={<Signup/>}/>
+                            <Route path="/login" element={<Login/>}/>
+                            <Route path="/contact-us" element={<ContactUs/>}/>
+                            <Route path="/invitation/:id" element={<PublicView/>}/>
+                            <Route path="/plans"
+                                   element={<UserProtectedRoute><UpgradePlan/></UserProtectedRoute>}/>
+                            <Route path="/app/events" element={<UserProtectedRoute><Events/></UserProtectedRoute>}/>
+                            <Route path="/app/events/:id"
+                                   element={<UserProtectedRoute><EventDetailsPage/></UserProtectedRoute>}/>
+                            <Route path="/app/events/add-edit"
+                                   element={<UserProtectedRoute><EventEditPage/></UserProtectedRoute>}/>
+                            <Route path="/app/events/add-edit/:id"
+                                   element={<UserProtectedRoute><EventEditPage/></UserProtectedRoute>}/>
+                            <Route path="/admin/events"
+                                   element={<AdminProtectedRoute><AdminEvents/></AdminProtectedRoute>}/>
+                            <Route path="/admin/dashboard"
+                                   element={<AdminProtectedRoute><Dashboard/></AdminProtectedRoute>}/>
+                            <Route path="/admin/payments"
+                                   element={<AdminProtectedRoute><PaymentPage/></AdminProtectedRoute>}/>
                         </Routes>
                     </AppShell.Main>
                 </AppShell>

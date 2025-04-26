@@ -2,6 +2,7 @@ import userRouter from "./user.routes.js";
 import eventRouter from "./event.routes.js";
 import notificationRouter from "./notification.routes.js";
 import rsvpRouter from "./rsvp.routes.js";
+import {uploadFile} from "../controllers/event.controller.js";
 
 export const routes = (app) => {
     app.get("/", (req, res) => {

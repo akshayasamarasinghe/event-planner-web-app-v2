@@ -2,12 +2,6 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import {createUserService, findOneUserService, findUsersService, updateUserService} from "../services/user.service.js";
-// import dotenv from "dotenv";
-
-// import path from "path";
-//
-// dotenv.config({path: path.resolve(process.cwd(), ".env")});
-// const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_SECRET = "40b77671c734decf58f138459647310ca082939c0ff2e6f5f9c2e5accc4c6e02f1d56dd760f956310bbb4ea7067d2670b76a72581cf7b622eac41985694b8c58"
 
 // Register User
@@ -52,7 +46,6 @@ export const userLoginController = async (req, res) => {
         if (!isMatch) return res.status(400).json({message: "Invalid credentials"});
 
         // Generate JWT
-        console.log(JWT_SECRET, "jwt");
         const token = jwt.sign({userId: user._id}, JWT_SECRET, {expiresIn: "7d"});
 
         res.json({

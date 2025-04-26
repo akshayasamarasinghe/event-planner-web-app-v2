@@ -1,24 +1,27 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../../state/store.ts";
 import {useEffect, useState} from "react";
 import {getInvitation, invitationRsvp} from "../../state/event/eventSlice.ts";
 import Loading from "../../components/Loading.tsx";
 import NoData from "../../components/NoData.tsx";
-import {Button, Card, Divider, Grid, Group, Image, Text, TextInput} from "@mantine/core";
+import {Button, Card, Divider, Group, Image, Text, TextInput} from "@mantine/core";
 import moment from "moment/moment";
 import CategoryTags from "../../components/CategoryTags.tsx";
-import {useForm} from "@mantine/form";
+import {isNotEmpty, useForm} from "@mantine/form";
 import {validateEmail} from "../../utils.ts";
-import {notifications} from "@mantine/notifications";
+import ActionMessage from "../../components/ActionMessages.tsx";
 
 const PublicView = () => {
     const {id}: any = useParams<{ id: string }>(); // Get the event ID from the URL
-    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch | any>();
     // const event: any = useSelector((state: RootState) => state.event.event);
     const [loading, setLoading] = useState<boolean>(false);// Find the event by ID
-    const [event, setEvent] = useState<any>({});// Find the event by ID
+    const [event, setEvent] = useState<any>({});
+
+    const [modalOpened, setModalOpened] = useState(false);
+    const [modalType, setModalType] = useState<'success' | 'error'>('success');
+    const [modalMessage, setModalMessage] = useState('');
 
     useEffect(() => {
         (async () => {
@@ -38,6 +41,7 @@ const PublicView = () => {
         },
 
         validate: {
+            name: isNotEmpty("Name is required"),
             email: (_, values) => validateEmail(values),
             phone_no: (value) => {
                 if (!value) {
@@ -51,25 +55,27 @@ const PublicView = () => {
 
     const onSubmit = invitationForm.onSubmit(async (values: any) => {
         try {
+            setLoading(true);
             const payload = values;
             const data = {payload, id};
             const response = await dispatch(invitationRsvp(data));
+            setLoading(false);
             switch (response.type) {
-                case "event/invite/rejected":
-                    notifications.show({
-                        color: "red",
-                        title: 'Error',
-                        message: 'System Error! 🌟',
-                    })
+                case "event/invitation/rsvp/rejected":
+                    setModalType('error');
+                    setModalMessage('Rsvp add failed!');
+                    setModalOpened(true);
+                    setTimeout(() => {
+                        setModalOpened(false);
+                    }, 1500);
                     break;
-                case "event/invite/fulfilled":
-                    notifications.show({
-                        color: "green",
-                        title: 'Success',
-                        message: 'Successful! 🌟',
-                    })
-                    console.log("success");
-                    navigate("/");
+                case "event/invitation/rsvp/fulfilled":
+                    setModalType('success');
+                    setModalMessage(payload?.payload?.message ? payload?.payload?.message : 'Rsvp added successfully!');
+                    setModalOpened(true);
+                    setTimeout(() => {
+                        setModalOpened(false);
+                    }, 1500);
                     break;
             }
         } catch (e) {
@@ -82,27 +88,25 @@ const PublicView = () => {
         // Perform review operation here
     };
 
-    console.log(event, "event");
-
     return (
         <div className="container mx-auto">
             {loading && <Loading/>}
             <section>
                 {!event?._id && <NoData text={"Event Not Found!"}/>}
                 {event?._id && <Card shadow="sm" padding="lg">
-                    <Grid>
+                    <div className="grid grid-cols-12 gap-8">
                         {/* Left Column: Event Image */}
-                        <Grid.Col span={6}>
+                        <div className="col-span-12 lg:col-span-6">
                             <Image
                                 src={event?.image_url}
                                 alt={event?.title}
                                 radius="md"
                                 style={{width: '100%', height: '100%'}}
                             />
-                        </Grid.Col>
+                        </div>
 
                         {/* Right Column: Event Details */}
-                        <Grid.Col span={6}>
+                        <div className="col-span-12 lg:col-span-6">
                             <Text fw={700} size="xl" mb="sm">
                                 {event?.title}
                             </Text>
@@ -148,17 +152,21 @@ const PublicView = () => {
                                     <Button color="red" onClick={declineInvitation}>
                                         Decline
                                     </Button>
-                                    <Button type="submit" color="blue">
+                                    <Button type="submit" color="#63378F">
                                         Accept
                                     </Button>
                                 </Group>
                             </form>
 
                             {/* Buttons: Edit, Delete, Share, Review */}
-                        </Grid.Col>
-                    </Grid>
+                        </div>
+                    </div>
                 </Card>}
             </section>
+            <ActionMessage opened={modalOpened}
+                           onClose={() => setModalOpened(false)}
+                           type={modalType}
+                           message={modalMessage}/>
         </div>
     );
 }

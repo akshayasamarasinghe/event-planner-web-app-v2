@@ -3,13 +3,12 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import {routes} from "./routes/index.js";
 import {initDatabase} from "./data-access/index.js";
-import userRouter from "./routes/user.routes.js";
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const app = express();
-app.use(cors()); // Enable CORS
-app.use(express.json()); // Parse JSON
+app.use(cors());
+app.use(express.json());
 
 // Connect to MongoDB
 initDatabase();
@@ -20,3 +19,4 @@ routes(app);
 // Start server locally (for testing)
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+

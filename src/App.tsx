@@ -4,16 +4,20 @@ import './index.css';
 import '@mantine/dates/styles.css';
 
 import {Notifications} from "@mantine/notifications";
+import {MantineProvider} from "@mantine/core";
+import {ModalsProvider} from "@mantine/modals";
 
 
 export default function App() {
     // const [loading, setLoading] = useState(false);
     return (
         <>
-            {/*<MantineProvider theme={theme}>*/}
-            <Notifications/>
-            <AppLayout/>
-            {/*</MantineProvider>*/}
+            <MantineProvider>
+                <Notifications/>
+                <ModalsProvider>
+                    <AppLayout/>
+                </ModalsProvider>
+            </MantineProvider>
         </>
     );
 }

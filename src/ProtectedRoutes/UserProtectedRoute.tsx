@@ -4,7 +4,6 @@ import {useAuth} from "../pages/Auth/AuthContext.tsx";
 
 const UserProtectedRoute = ({ children }: { children: JSX.Element }) => {
     const auth: any = useAuth();
-    console.log(auth, "auth");
 
     if (!auth.user || auth?.userType !== "USER") {
         return <Navigate to="/login" replace />;

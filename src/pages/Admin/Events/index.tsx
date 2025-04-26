@@ -65,7 +65,6 @@ const Events = () => {
             setLoading(false);
         })();
     }, []);
-    console.log(events);
 
     useEffect(() => {
         (async () => {
@@ -117,12 +116,13 @@ const Events = () => {
 
     const rows = events?.map((e: any) => (
         <Table.Tr key={e?.title}>
-            <Table.Td>{e?.title}</Table.Td>
-            <Table.Td>{moment(e?.start_date).format("YYYY-MM-DD")} {e?.end_date ? ` - ${moment(e?.end_date).format("YYYY-MM-DD")}` : ""}</Table.Td>
-            <Table.Td>{e?.description}</Table.Td>
+            <Table.Td className="w-[200px]">{e?.title}</Table.Td>
+            <Table.Td
+                className="w-[200px]">{moment(e?.start_date).format("YYYY-MM-DD")} {e?.end_date ? ` - ${moment(e?.end_date).format("YYYY-MM-DD")}` : ""}</Table.Td>
+            <Table.Td className="max-w-[200px] truncate">{e?.description}</Table.Td>
             <Table.Td><CategoryTags categories={e?.category}></CategoryTags></Table.Td>
             <Table.Td className="flex gap-2">
-                <Button variant="default" onClick={() => {
+                <Button variant="outline" color="#63378F" onClick={() => {
                     open();
                     setEvent(e);
                     setSelectedId(e?._id);
@@ -137,7 +137,7 @@ const Events = () => {
                 }}>
                     Edit
                 </Button>
-                <Button variant="default" onClick={() => {
+                <Button variant="filled" color="#63378F" onClick={() => {
                     handlerViewEvent.open();
                     setEvent(e);
                 }}>View</Button>
@@ -148,8 +148,6 @@ const Events = () => {
     const handleCreateEvent = () => {
         open();
     };
-
-    console.log(selectedCategories, "selected");
 
     const eventForm = useForm({
         initialValues: {
@@ -234,7 +232,6 @@ const Events = () => {
     })
 
     useEffect(() => {
-        console.log(eventForm.values);
         const values = eventForm?.values;
         setEvent({
             title: values?.title,
@@ -249,14 +246,14 @@ const Events = () => {
         <div className="container mx-auto">
             {loading && <Loading/>}
             <section>
-                <div style={{display: 'flex', gap: '20px'}}>
+                <div className="grid grid-cols-12 gap-2">
                     {/* Category List on the Left */}
-                    <div style={{width: '200px'}}>
+                    <div className="col-span-12 lg:col-span-2">
                         <Stack>
                             <Text fw="500">Categories</Text>
                             {categories.map((category) => (
                                 <Checkbox
-                                    color="black"
+                                    color="#63378F"
                                     key={category.value}
                                     label={category.label}
                                     onChange={() => handleCategoryChange(category.value)}
@@ -266,7 +263,7 @@ const Events = () => {
                     </div>
 
                     {/* Event List on the Right */}
-                    <div style={{flex: 1}}>
+                    <div className="col-span-12 lg:col-span-10">
                         {/* "Create Your Own Event" Button */}
                         <Group justify="space-between" mb="md">
                             <TextInput
@@ -275,36 +272,43 @@ const Events = () => {
                                 onChange={handleSearch}
                                 style={{flex: 1}}
                             />
-                            <Button color="teal" onClick={handleCreateEvent}>
+                            <Button color="#63378F" onClick={handleCreateEvent}>
                                 Create Event
                             </Button>
                         </Group>
 
-                        <Card shadow="sm" padding="lg" radius="md" withBorder>
-                            <Table horizontalSpacing="md" verticalSpacing="md">
-                                <Table.Thead>
-                                    <Table.Tr>
-                                        <Table.Th>Title</Table.Th>
-                                        <Table.Th>Start Date - End Date</Table.Th>
-                                        <Table.Th>Description</Table.Th>
-                                        <Table.Th>Category</Table.Th>
-                                        <Table.Th>Actions</Table.Th>
-                                    </Table.Tr>
-                                </Table.Thead>
-                                {events?.length > 0 && (
-                                    <Table.Tbody>{rows}</Table.Tbody>
-                                )}
-                                {!events?.length && (
-                                    <Table.Tbody>
+                        <Card shadow="sm" padding="sm" radius="md" withBorder>
+                            <div className="w-full overflow-x-auto">
+                                <Table
+                                    className="min-w-[800px] w-full"
+                                    horizontalSpacing="sm"
+                                    verticalSpacing="sm"
+                                    striped
+                                >
+                                    <Table.Thead>
                                         <Table.Tr>
-                                            <Table.Td colSpan={5}>
-                                                {<NoData text={"No Data to Show!"}/>}
-                                            </Table.Td>
+                                            <Table.Th className="w-[200px]">Title</Table.Th>
+                                            <Table.Th className="w-[200px]">Start Date - End Date</Table.Th>
+                                            <Table.Th className="w-[200px]">Description</Table.Th>
+                                            <Table.Th className="w-[200px]">Category</Table.Th>
+                                            <Table.Th className="w-[200px]">Actions</Table.Th>
                                         </Table.Tr>
-                                    </Table.Tbody>
-                                )}
-                            </Table>
+                                    </Table.Thead>
+                                    {events?.length > 0 && <Table.Tbody>{rows}</Table.Tbody>}
+                                    {!events?.length && (
+                                        <Table.Tbody>
+                                            <Table.Tr>
+                                                <Table.Td colSpan={5}>
+                                                    <NoData text={"No Data to Show!"}/>
+                                                </Table.Td>
+                                            </Table.Tr>
+                                        </Table.Tbody>
+                                    )}
+                                </Table>
+                            </div>
                         </Card>
+
+
                     </div>
                 </div>
             </section>
@@ -387,14 +391,14 @@ const Events = () => {
                                     {...eventForm.getInputProps('category')}
                                 />
                                 <div className="flex justify-end gap-3 mt-3">
-                                    <Button size="md" className="my-5 w-full" variant="outline" color="black"
+                                    <Button size="md" className="my-5 w-full" variant="outline" color="#63378F"
                                             onClick={() => {
                                                 close();
                                                 setEvent({});
                                                 eventForm?.reset();
                                             }}
-                                            radius="xl">Cancel</Button>
-                                    <Button size="md" className="my-5 w-full" variant="filled" color="black" radius="xl"
+                                            radius="md">Cancel</Button>
+                                    <Button size="md" className="my-5 w-full" variant="filled" color="#63378F" radius="md"
                                             type="submit">Save</Button>
                                 </div>
                             </form>
@@ -420,15 +424,17 @@ const Events = () => {
                                 </Card.Section>
                                 <div className="flex flex-col gap-2 mt-3">
                                     <p className="font-bold">{event?.title || "Title"}</p>
-                                    <p className="text-gray-400 text-sm">{event?.start_date || "Start date"} {event?.end_date ? `- ${event?.end_date}` : " - End date"}</p>
+                                    <Text size="sm" mb="xs"
+                                          color="dimmed">{moment(event?.start_date).format("YYYY-MM-DD")} {"|"} {moment(event?.start_time, "HH:mm").format("hh:mm A") || ""} {event?.end_date ? ` - ${moment(event?.end_date).format("YYYY-MM-DD")}` : ""} {"|"} {moment(event?.end_time, "HH:mm").format("hh:mm A") || ""}</Text>
+                                    <CategoryTags categories={event?.category}></CategoryTags>
                                     <p className=" text-sm">{event?.description || "Description"}</p>
                                     <CategoryTags categories={eventForm?.values?.category}></CategoryTags>
                                 </div>
                                 <Divider my="md"/>
-                                <Card shadow="sm" padding="lg" radius="md">
-                                    <p className="font-bold">RSVPS</p>
+                                <p className="font-bold mb-3">RSVPS</p>
+                                <Card className="border-1 border-gray-400" shadow="sm" padding="lg" radius="md">
                                     <div>
-                                        <Table horizontalSpacing="md" verticalSpacing="md">
+                                        <Table horizontalSpacing="md" verticalSpacing="md" striped>
                                             <Table.Thead>
                                                 <Table.Tr>
                                                     <Table.Th>Name</Table.Th>
@@ -437,20 +443,15 @@ const Events = () => {
                                                 </Table.Tr>
                                             </Table.Thead>
                                             {event?.rsvps?.length > 0 && (
-                                                event?.rsvps?.map((r: any) => (
-                                                    <Table.Tr key={r?.name}>
-                                                        <Table.Td>{r?.name}</Table.Td>
-                                                        <Table.Td>{r?.email}</Table.Td>
-                                                        <Table.Td>{r?.phone_no}</Table.Td>
-                                                    </Table.Tr>
-                                                    // <Card>
-                                                    //     <div>
-                                                    //         <p>{r?.name}</p>
-                                                    //         <p>{r?.email}</p>
-                                                    //         <p>{r?.phone_no}</p>
-                                                    //     </div>
-                                                    // </Card>
-                                                ))
+                                                <Table.Tbody>
+                                                    {event?.rsvps?.map((r: any) => (
+                                                        <Table.Tr key={r?.name}>
+                                                            <Table.Td>{r?.name}</Table.Td>
+                                                            <Table.Td>{r?.email}</Table.Td>
+                                                            <Table.Td>{r?.phone_no}</Table.Td>
+                                                        </Table.Tr>
+                                                    ))}
+                                                </Table.Tbody>
                                             )}
                                             {!event?.rsvps?.length && (
                                                 <Table.Tbody>

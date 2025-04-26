@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+.makeStyles-container-1 {
+    padding: 0 !important;
+}
+
+.makeStyles-container-3 {
+    padding-top: 0 !important;
+}
+
+.makeStyles-iconContainer-3 {
+    padding: 0 !important;
+}
+
+.makeStyles-copyContainer-5 {
+    /*background: white !important;*/
+    /*color: black !important;*/
+    display: none !important;
+}

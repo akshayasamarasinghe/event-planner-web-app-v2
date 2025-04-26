@@ -13,7 +13,6 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({children}: { children: ReactNode }) => {
     const user = localStorage.getItem(LOGGED_IN_USER) ? localStorage.getItem(LOGGED_IN_USER) : null;
     const userType = localStorage.getItem(LOGGED_IN_USER_TYPE) ? localStorage.getItem(LOGGED_IN_USER_TYPE) : null;
-    // console.log(localStorage.getItem(LOGGED_IN_USER), "localStorage.getItem(LOGGED_IN_USER)");
     //
     // const login = (userData: any) => {
     //     setUser(userData);

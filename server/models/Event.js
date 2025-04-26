@@ -5,10 +5,12 @@ const EventSchema = new mongoose.Schema({
     title: {type: Schema.Types.String},
     description: {type: Schema.Types.String},
     start_date: {type: Schema.Types.Date},
+    start_time: {type: Schema.Types.String},
     end_date: {type: Schema.Types.Date},
+    end_time: {type: Schema.Types.String},
     image_url: {type: Schema.Types.String},
     category: {type: [Schema.Types.String]},
-    rsvps: {type: [Schema.Types.Array]},
+    rsvps: {type: [Schema.Types.Mixed]},
 
 }, {
     timestamps: true,

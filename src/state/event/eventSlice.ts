@@ -84,6 +84,34 @@ export const invitationRsvp = createAsyncThunk(
     }
 );
 
+export const eventRsvp = createAsyncThunk(
+    "event/rsvp",
+    async (payload: any, {rejectWithValue}) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/events/rsvp`, payload);
+            return response.data;
+        } catch (err: any) {
+            throw rejectWithValue(err.response.data);
+        }
+    }
+);
+
+export const eventUploadImage = createAsyncThunk(
+    "event/upload",
+    async (payload: any, {rejectWithValue}) => {
+        try {
+            const response = await axios.post(`${BASE_URL}/events/upload`, payload, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            return response.data;
+        } catch (err: any) {
+            throw rejectWithValue(err.response.data);
+        }
+    }
+);
+
 const eventSlice = createSlice({
     name: "event",
     initialState,

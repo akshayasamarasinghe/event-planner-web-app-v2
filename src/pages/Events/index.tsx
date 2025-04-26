@@ -34,7 +34,6 @@ const Events = () => {
             setLoading(false);
         })();
     }, []);
-    console.log(events);
 
     useEffect(() => {
         (async () => {
@@ -73,20 +72,18 @@ const Events = () => {
         navigate('/app/events/add-edit'); // Navigate to the event creation page
     };
 
-    console.log(selectedCategories, "selected");
-
     return (
         <div className="container mx-auto">
             {loading && <Loading/>}
             <section>
-                <div style={{display: 'flex', gap: '20px'}}>
+                <div className="grid grid-cols-12 gap-2">
                     {/* Category List on the Left */}
-                    <div className="w-[100px] lg:w-[200px]">
+                    <div className="col-span-12 lg:col-span-2">
                         <Stack>
                             <Text fw="500">Categories</Text>
                             {categories.map((category) => (
                                 <Checkbox
-                                    color="black"
+                                    color="#63378F"
                                     key={category.value}
                                     label={category.label}
                                     onChange={() => handleCategoryChange(category.value)}
@@ -96,7 +93,7 @@ const Events = () => {
                     </div>
 
                     {/* Event List on the Right */}
-                    <div style={{flex: 1}}>
+                    <div className="col-span-12 lg:col-span-10">
                         {/* "Create Your Own Event" Button */}
                         <Group justify="space-between" mb="md">
                             <TextInput
@@ -105,7 +102,7 @@ const Events = () => {
                                 onChange={handleSearch}
                                 style={{flex: 1}}
                             />
-                            <Button color="black" onClick={handleCreateEvent}>
+                            <Button color="#63378F" onClick={handleCreateEvent}>
                                 Create Your Own Event
                             </Button>
                         </Group>
@@ -116,21 +113,61 @@ const Events = () => {
                         )}
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                             {events?.length > 0 && events?.map((event: any) => (
-                                <Card key={event?._id} shadow="sm" padding="lg">
+                                <Card
+                                    key={event?._id}
+                                    shadow="sm"
+                                    padding="lg"
+                                    style={{
+                                        height: '500px',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                    }}
+                                >
                                     <Card.Section>
-                                        <img src={event?.image_url} alt={event?.title}
-                                             style={{width: '100%', height: '150px', objectFit: 'cover'}}/>
+                                        <img
+                                            src={event?.image_url}
+                                            alt={event?.title}
+                                            className="w-full"
+                                            style={{
+                                                // width: '100%',
+                                                height: '150px',
+                                                objectFit: 'cover',
+                                            }}
+                                        />
                                     </Card.Section>
                                     <Text fw="500" mt="md">{event?.title}</Text>
-                                    <Text size="sm"
-                                          color="dimmed">{moment(event?.start_date).format("YYYY-MM-DD")} {event?.end_date ? ` - ${moment(event?.end_date).format("YYYY-MM-DD")}` : ""}</Text>
-                                    <Text size="sm" mt="sm">{event?.description}</Text>
-                                    <CategoryTags categories={event?.category}></CategoryTags>
-                                    <Button color="black" variant="light" fullWidth mt="md"
-                                            onClick={() => navigate(`/app/events/${event?._id}`)}>
-                                        View Details
-                                    </Button>
+                                    <Text size="sm" color="dimmed" className="">
+                                        {moment(event?.start_date).format("YYYY-MM-DD")} {"|"}
+                                        {moment(event?.start_time, "HH:mm").format("hh:mm A") || ""}
+                                        {event?.end_date ? ` - ${moment(event?.end_date).format("YYYY-MM-DD")}` : ""} {"|"}
+                                        {moment(event?.end_time, "HH:mm").format("hh:mm A") || ""}
+                                    </Text>
+                                    <CategoryTags categories={event?.category}/>
+                                    <div
+                                        style={{
+                                            marginTop: '12px',
+                                            marginBottom: '8px',
+                                            flex: '0 0 auto',
+                                            height: '180px',
+                                            overflowY: 'auto',
+                                        }}
+                                    >
+                                        <Text size="sm">{event?.description}</Text>
+                                    </div>
+                                    <div style={{position: "static"}}>
+                                        <Button
+                                            color="#63378F"
+                                            variant="light"
+                                            fullWidth
+                                            mt="md"
+                                            onClick={() => navigate(`/app/events/${event?._id}`)}
+                                        >
+                                            View Details
+                                        </Button>
+                                    </div>
                                 </Card>
+
+
                             ))}
                         </div>
                     </div>

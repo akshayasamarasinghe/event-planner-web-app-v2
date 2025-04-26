@@ -13,7 +13,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="py-36 text-center bg-gradient-to-r from-pink-100 via-white to-blue-100">
         <h1 className="text-6xl font-extrabold mb-6 text-gray-900 leading-tight">
-          Welcome to <span className="text-blue-600">Event Pro</span>
+          Welcome to <span className="text-[#63378F]">EventPro</span>
         </h1>
         <p className="text-xl max-w-4xl mx-auto mb-8 text-gray-700">
           Creating unforgettable moments across Sri Lanka and beyond. Whether it's a dreamy wedding, corporate gala, or international expo — we plan it all.
@@ -22,7 +22,7 @@ const Home = () => {
           size="lg"
           onClick={() => navigate("/signup")}
           variant="filled"
-          color="blue"
+          color="#63378F"
           radius="xl"
         >
           Start Planning Now
@@ -103,14 +103,14 @@ const Home = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 bg-blue-600 text-white text-center">
+      <section className="py-20 bg-[#63378F] text-white text-center">
         <h2 className="text-4xl font-bold mb-4">Your Dream Event Starts Here</h2>
         <p className="text-lg mb-8">Let us turn your vision into reality. Join hundreds of satisfied clients today.</p>
         <Button
           size="lg"
           onClick={() => navigate("/signup")}
           variant="white"
-          color="blue"
+          color="#63378F"
           radius="xl"
         >
           Book a Free Consultation
