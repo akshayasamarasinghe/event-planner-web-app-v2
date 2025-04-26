@@ -84,6 +84,7 @@ const PublicView = () => {
         }
     });
 
+
     const declineInvitation = () => {
         location.replace("/");
     };
