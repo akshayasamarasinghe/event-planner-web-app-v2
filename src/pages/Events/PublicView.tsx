@@ -17,6 +17,7 @@ const PublicView = () => {
     const dispatch = useDispatch<AppDispatch | any>();
     // const event: any = useSelector((state: RootState) => state.event.event);
     const [loading, setLoading] = useState<boolean>(false);// Find the event by ID
+    const [goBack, setGoBack] = useState<boolean>(false);// Find the event by ID
     const [event, setEvent] = useState<any>({});
 
     const [modalOpened, setModalOpened] = useState(false);
@@ -75,6 +76,7 @@ const PublicView = () => {
                     setModalOpened(true);
                     setTimeout(() => {
                         invitationForm.reset();
+                        setGoBack(true);
                         setModalOpened(false);
                     }, 1500);
                     break;
@@ -90,85 +92,93 @@ const PublicView = () => {
     };
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             {loading && <Loading/>}
-            <section>
-                {!event?._id && <NoData text={"Event Not Found!"}/>}
-                {event?._id && <Card shadow="sm" padding="lg">
-                    <div className="grid grid-cols-12 gap-8">
-                        {/* Left Column: Event Image */}
-                        <div className="col-span-12 lg:col-span-6">
-                            <Image
-                                src={event?.image_url}
-                                alt={event?.title}
-                                radius="md"
-                                style={{width: '100%', height: '100%'}}
-                            />
+            <section className="py-8">
+                {!event?._id && <NoData text="Event Not Found!"/>}
+
+                {event?._id && (
+                    <Card shadow="sm" className="p-4 sm:p-6 lg:p-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            {/* Left Column: Event Image */}
+                            <div className="w-full h-64 sm:h-80 md:h-96 lg:h-full overflow-hidden rounded-md">
+                                <Image
+                                    src={event?.image_url}
+                                    alt={event?.title}
+                                    radius="md"
+                                    style={{width: '100%', height: '100%', objectFit: 'cover'}}
+                                />
+                            </div>
+
+                            {/* Right Column: Event Details */}
+                            <div className="flex flex-col justify-between">
+                                <div>
+                                    <Text fw={700} size="xl" mb="sm">
+                                        {event?.title}
+                                    </Text>
+                                    <Text size="sm" color="dimmed" className="mb-2">
+                                        {moment(event?.start_date).format('YYYY-MM-DD')}
+                                        {event?.end_date ? ` - ${moment(event?.end_date).format('YYYY-MM-DD')}` : ''}
+                                    </Text>
+
+                                    <CategoryTags categories={event?.category}/>
+                                    <Text size="md" className="mb-6">
+                                        {event?.description}
+                                    </Text>
+
+                                    <Divider className="my-8"/>
+                                </div>
+
+                                <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+                                    <TextInput
+                                        size="md"
+                                        radius="xl"
+                                        label="Name"
+                                        placeholder="Name"
+                                        key={invitationForm.key('name')}
+                                        {...invitationForm.getInputProps('name')}
+                                    />
+                                    <TextInput
+                                        size="md"
+                                        radius="xl"
+                                        label="Email"
+                                        placeholder="your@email.com"
+                                        key={invitationForm.key('email')}
+                                        {...invitationForm.getInputProps('email')}
+                                    />
+                                    <TextInput
+                                        size="md"
+                                        radius="xl"
+                                        withAsterisk
+                                        label="Phone Number"
+                                        placeholder="Phone Number"
+                                        key={invitationForm.key('phone_no')}
+                                        {...invitationForm.getInputProps('phone_no')}
+                                    />
+
+                                    <Group className="gap-4 mt-6">
+                                        <Button color="red" fullWidth onClick={declineInvitation}>
+                                            {goBack ? "Home" : "Decline"}
+                                        </Button>
+                                        <Button type="submit" className="bg-[#63378F] hover:bg-[#552f7a]" fullWidth>
+                                            Accept
+                                        </Button>
+                                    </Group>
+                                </form>
+                            </div>
                         </div>
-
-                        {/* Right Column: Event Details */}
-                        <div className="col-span-12 lg:col-span-6">
-                            <Text fw={700} size="xl" mb="sm">
-                                {event?.title}
-                            </Text>
-                            <Text size="sm"
-                                  color="dimmed">{moment(event?.start_date).format("YYYY-MM-DD")} {event?.end_date ? ` - ${moment(event?.end_date).format("YYYY-MM-DD")}` : ""}</Text>
-                            <Text size="md" mb="xl">
-                                {event.description}
-                            </Text>
-                            <CategoryTags categories={event?.category}></CategoryTags>
-
-                            <Divider my="xl"/>
-
-
-                            <form className="flex flex-col gap-4 mr-4" onSubmit={
-                                onSubmit}>
-                                <TextInput
-                                    size="md"
-                                    radius="xl"
-                                    label="Name"
-                                    placeholder="Name"
-                                    key={invitationForm.key('name')}
-                                    {...invitationForm.getInputProps('name')}
-                                />
-                                <TextInput
-                                    size="md"
-                                    radius="xl"
-                                    label="Email"
-                                    placeholder="your@email.com"
-                                    key={invitationForm.key('email')}
-                                    {...invitationForm.getInputProps('email')}
-                                />
-                                <TextInput
-                                    size="md"
-                                    radius="xl"
-                                    withAsterisk
-                                    label="Phone Number"
-                                    placeholder="Phone Number"
-                                    key={invitationForm.key('phone_no')}
-                                    {...invitationForm.getInputProps('phone_no')}
-                                />
-
-                                <Group gap="md" mb="xl" mt="xl">
-                                    <Button color="red" onClick={declineInvitation}>
-                                        Decline
-                                    </Button>
-                                    <Button type="submit" color="#63378F">
-                                        Accept
-                                    </Button>
-                                </Group>
-                            </form>
-
-                            {/* Buttons: Edit, Delete, Share, Review */}
-                        </div>
-                    </div>
-                </Card>}
+                    </Card>
+                )}
             </section>
-            <ActionMessage opened={modalOpened}
-                           onClose={() => setModalOpened(false)}
-                           type={modalType}
-                           message={modalMessage}/>
+
+            <ActionMessage
+                opened={modalOpened}
+                onClose={() => setModalOpened(false)}
+                type={modalType}
+                message={modalMessage}
+            />
         </div>
+
     );
 }
 
