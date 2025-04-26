@@ -71,7 +71,7 @@ const PublicView = () => {
                     break;
                 case "event/invitation/rsvp/fulfilled":
                     setModalType('success');
-                    setModalMessage(payload?.payload?.message ? payload?.payload?.message : 'Rsvp added successfully!');
+                    setModalMessage(response?.payload?.message ? response?.payload?.message : 'Rsvp added successfully!');
                     setModalOpened(true);
                     setTimeout(() => {
                         setModalOpened(false);

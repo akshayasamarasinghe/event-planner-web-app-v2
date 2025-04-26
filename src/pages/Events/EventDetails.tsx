@@ -30,7 +30,7 @@ const EventDetails = () => {
         (async () => {
             setLoading(true);
             await dispatch(getEvent({_id: id, user: loggedInUserId}));
-            setUrl(`https://event-planner-qa.vercel.app/invitation/${id}`);
+            setUrl(`https://eventpro-qa.vercel.app/invitation/${id}`);
             setLoading(false);
         })();
     }, [id]);
