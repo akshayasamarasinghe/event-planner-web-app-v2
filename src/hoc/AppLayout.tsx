@@ -99,6 +99,22 @@ export const AppLayout = () => {
                                             {/*    label="Payments"*/}
                                             {/*/>*/}
                                             <NavLink
+                                                active={activePath.startsWith("/blog")}
+                                                href="/blog"
+                                                label="Blog"
+                                            />
+                                            <NavLink
+                                                active={activePath.startsWith("/plans")}
+                                                href="/plans"
+                                                label="Plans"
+                                            />
+                                        </>
+                                    )}
+
+                                    {/* Public Menu */}
+                                    {!userFirstname && (
+                                        <>
+                                            <NavLink
                                                 active={activePath.startsWith("/plans")}
                                                 href="/plans"
                                                 label="Plans"
@@ -108,21 +124,10 @@ export const AppLayout = () => {
                                                 href="/blog"
                                                 label="Blog"
                                             />
-                                        </>
-                                    )}
-
-                                    {/* Public Menu */}
-                                    {!userFirstname && (
-                                        <>
                                             <NavLink
                                                 active={activePath.startsWith("/contact-us")}
                                                 href="/contact-us"
                                                 label="Contact Us"
-                                            />
-                                            <NavLink
-                                                active={activePath.startsWith("/blog")}
-                                                href="/blog"
-                                                label="Blog"
                                             />
                                         </>
                                     )}
