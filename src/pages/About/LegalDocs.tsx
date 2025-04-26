@@ -283,7 +283,7 @@ const AgreementContent = () => (
 );
 
 // Reusable Section Component
-const Section = ({ title, children, expanded = false }: { title: string; children: React.ReactNode; expanded?: boolean }) => {
+const Section = ({ title, children }: { title: string; children: React.ReactNode; expanded?: boolean }) => {
   return (
     <section className="border-b border-gray-100 dark:border-gray-700 pb-8 last:border-0 last:pb-0">
       <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">{title}</h2>

@@ -60,3 +60,7 @@ N
 src/pages/Auth/AuthContext.tsx,6/6/66f1c4ecfed5a55b8b5034d11f2cbd22b12876ce
 M
 src/pages/ContactUs/index.tsx,2/c/2c517ffbd35ae20908d1cafbf4776b6259748d73
+M
+src/pages/About/LegalDocs.tsx,4/1/4152537ce0c60a54896eeb6b35a08081fc5c3a6f
+S
+#src/pages/Admin/Dashboard/index.tsx,6/c/6c61922b5bdc1bcae3fdeae3cf5ca0801cca544c
