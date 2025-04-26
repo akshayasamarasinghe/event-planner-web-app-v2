@@ -64,3 +64,5 @@ M
 src/pages/About/LegalDocs.tsx,4/1/4152537ce0c60a54896eeb6b35a08081fc5c3a6f
 S
 #src/pages/Admin/Dashboard/index.tsx,6/c/6c61922b5bdc1bcae3fdeae3cf5ca0801cca544c
+<
+package.json,7/0/7030d0b2f71b999ff89a343de08c414af32fc93a
