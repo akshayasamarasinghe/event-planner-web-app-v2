@@ -26,7 +26,6 @@ import imagePlaceHolder from "../../../assets/images/image-placeholder.jpg";
 import {DatePickerInput} from "@mantine/dates";
 import {useDisclosure} from "@mantine/hooks";
 import {isNotEmpty, useForm} from "@mantine/form";
-import {notifications} from "@mantine/notifications";
 
 const imageUrlRegex = /^(https?:\/\/)([\w.-]+)([\/\w.-]*)*$/;
 
@@ -179,43 +178,43 @@ const Events = () => {
         setLoading(true);
         try {
             if (selectedId) {
-                const payload = await dispatch(updateEvent({...values, _id: selectedId}));
+                await dispatch(updateEvent({...values, _id: selectedId}));
                 setLoading(false);
-                switch (payload.type) {
-                    case "event/update/rejected":
-                        notifications.show({
-                            color: "red",
-                            title: 'Error',
-                            message: 'System Error! 🌟',
-                        })
-                        break;
-                    case "event/update/fulfilled":
-                        notifications.show({
-                            color: "green",
-                            title: 'Success',
-                            message: 'Successful! 🌟',
-                        })
-                        break;
-                }
+                // switch (payload.type) {
+                //     case "event/update/rejected":
+                //         notifications.show({
+                //             color: "red",
+                //             title: 'Error',
+                //             message: 'System Error! 🌟',
+                //         })
+                //         break;
+                //     case "event/update/fulfilled":
+                //         notifications.show({
+                //             color: "green",
+                //             title: 'Success',
+                //             message: 'Successful! 🌟',
+                //         })
+                //         break;
+                // }
             } else {
-                const payload = await dispatch(createEvent(values));
+                await dispatch(createEvent(values));
                 setLoading(false);
-                switch (payload.type) {
-                    case "event/create/rejected":
-                        notifications.show({
-                            color: "red",
-                            title: 'Error',
-                            message: 'System Error! 🌟',
-                        })
-                        break;
-                    case "event/create/fulfilled":
-                        notifications.show({
-                            color: "green",
-                            title: 'Success',
-                            message: 'Successful! 🌟',
-                        })
-                        break;
-                }
+                // switch (payload.type) {
+                //     case "event/create/rejected":
+                //         notifications.show({
+                //             color: "red",
+                //             title: 'Error',
+                //             message: 'System Error! 🌟',
+                //         })
+                //         break;
+                //     case "event/create/fulfilled":
+                //         notifications.show({
+                //             color: "green",
+                //             title: 'Success',
+                //             message: 'Successful! 🌟',
+                //         })
+                //         break;
+                // }
             }
             setEvent({});
             setSelectedId("");

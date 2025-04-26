@@ -11,7 +11,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import Loading from "../../components/Loading.tsx";
 import CategoryTags from "../../components/CategoryTags.tsx";
 import {LOGGED_IN_USER_ID} from "../../constants/constants.ts";
-import {notifications} from "@mantine/notifications";
 import {IconClock, IconTrash} from "@tabler/icons-react";
 import {modals} from "@mantine/modals";
 import ActionMessage from "../../components/ActionMessages.tsx";
@@ -159,12 +158,7 @@ const EditEvent = () => {
 
     const formOnSubmit = eventForm.onSubmit(async (values) => {
         if (!image_url) {
-            return notifications.show({
-                color: "red",
-                title: 'Error',
-                message: 'System Error!',
-                position: 'top-right'
-            });
+            return;
         }
         setLoading(true);
         try {

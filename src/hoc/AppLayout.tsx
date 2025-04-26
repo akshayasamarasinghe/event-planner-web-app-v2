@@ -14,7 +14,6 @@ import {LOGGED_IN_USER, LOGGED_IN_USER_TYPE} from "../constants/constants.ts";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../state/store.ts";
 import {logOutFromServer} from "../state/auth/authSlice.ts";
-import {notifications} from "@mantine/notifications";
 import PublicView from "../pages/Events/PublicView.tsx";
 import AdminProtectedRoute from "../ProtectedRoutes/AdminProtectedRoute.tsx";
 import Dashboard from "../pages/Admin/Dashboard";
@@ -37,25 +36,8 @@ export const AppLayout = () => {
     }, [location.pathname]);
 
     const logout = async () => {
-        const payload = dispatch(logOutFromServer());
-        switch (payload.type) {
-            case "auth/logout/rejected":
-                notifications.show({
-                    color: "red",
-                    title: 'Error',
-                    message: 'System Error!',
-                    position: "top-right"
-                });
-                break;
-            case "auth/logout/fulfilled":
-                notifications.show({
-                    color: "green",
-                    title: 'Success',
-                    message: 'Logged out successfully!',
-                    position: "top-right"
-                });
-                break;
-        }
+        await dispatch(logOutFromServer());
+        location.replace("/login");
     }
 
     return (

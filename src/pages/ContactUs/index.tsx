@@ -1,6 +1,5 @@
 import {Button, Card, Divider, Group, Textarea, TextInput, Title,} from "@mantine/core";
 import {isNotEmpty, useForm} from "@mantine/form";
-import {notifications} from "@mantine/notifications";
 
 const ContactUs = () => {
     const form = useForm({
@@ -20,11 +19,6 @@ const ContactUs = () => {
 
     const handleSubmit = (values: typeof form.values) => {
         console.log(values);
-        notifications.show({
-            title: "Message Sent",
-            message: "We’ll get back to you soon!",
-            color: "green",
-        });
         form.reset();
     };
 
