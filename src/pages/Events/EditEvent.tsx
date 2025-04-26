@@ -201,7 +201,7 @@ const EditEvent = () => {
                         }, 1500);
                         break;
                     case "event/create/fulfilled":
-                        setModalType('error');
+                        setModalType('success');
                         setModalMessage('Event created successfully!');
                         setModalOpened(true);
                         setTimeout(() => {
