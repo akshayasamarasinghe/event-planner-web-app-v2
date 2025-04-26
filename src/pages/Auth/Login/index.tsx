@@ -7,11 +7,13 @@ import {login} from "../../../state/auth/authSlice.ts";
 import login1 from "../../../assets/images/login.jpg"
 import {useState} from "react";
 import ActionMessage from "../../../components/ActionMessages.tsx";
+import Loading from "../../../components/Loading.tsx";
 
 const Login = () => {
     const dispatch = useDispatch<AppDispatch | any>();
 
     const [modalOpened, setModalOpened] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [modalType, setModalType] = useState<'success' | 'error'>('success');
     const [modalMessage, setModalMessage] = useState('');
 
@@ -31,8 +33,9 @@ const Login = () => {
 
     const onSubmit = form.onSubmit(async (values: any) => {
         try {
+            setLoading(true);
             const payload = await dispatch(login(values));
-
+            setLoading(true);
             switch (payload.type) {
                 case "auth/login/rejected":
                     setModalType('error');
@@ -62,7 +65,8 @@ const Login = () => {
     });
 
     return (
-        <>
+        <div className="container mx-auto">
+            {loading && <Loading/>}
             <div
                 className="min-h-[700px] bg-gradient-to-r from-gray-100 to-blue-100 flex items-center justify-center px-4 py-12">
                 <div
@@ -136,7 +140,7 @@ const Login = () => {
                            onClose={() => setModalOpened(false)}
                            type={modalType}
                            message={modalMessage}/>
-        </>
+        </div>
     );
 };
 

@@ -120,14 +120,9 @@ export const AppLayout = () => {
                                                 label="Contact Us"
                                             />
                                             <NavLink
-                                                active={activePath.startsWith("/signup")}
-                                                href="/signup"
-                                                label="Signup"
-                                            />
-                                            <NavLink
-                                                active={activePath.startsWith("/login")}
-                                                href="/login"
-                                                label="Login"
+                                                active={activePath.startsWith("/blog")}
+                                                href="/blog"
+                                                label="Blog"
                                             />
                                         </>
                                     )}
@@ -139,7 +134,7 @@ export const AppLayout = () => {
                                         <Menu>
                                             <Menu.Target>
                                                 <div
-                                                    className="flex items-center border-1 border-gray-300 rounded-lg m-1 hover:cursor-pointer">
+                                                    className="flex items-center border-1 border-gray-300 rounded-xs m-1 hover:cursor-pointer">
                                                     <div className="m-2">
                                                         <p className="text-[16px]">{userFirstname}</p>
                                                         <p className="text-[10px]">{userType}</p>
@@ -156,7 +151,18 @@ export const AppLayout = () => {
                                             </Menu.Dropdown>
                                         </Menu>
                                     ) : (
-                                        <div className="w-8 h-8 my-4"></div>
+                                        <div className="flex h-[65px] w-[300px] pt-2">
+                                            <NavLink
+                                                active={activePath.startsWith("/signup")}
+                                                href="/signup"
+                                                label="Signup"
+                                            />
+                                            <NavLink
+                                                active={activePath.startsWith("/login")}
+                                                href="/login"
+                                                label="Login"
+                                            />
+                                        </div>
                                     )}
                                 </div>
                             </div>

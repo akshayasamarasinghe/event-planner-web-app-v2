@@ -74,6 +74,7 @@ const PublicView = () => {
                     setModalMessage(response?.payload?.message ? response?.payload?.message : 'Rsvp added successfully!');
                     setModalOpened(true);
                     setTimeout(() => {
+                        invitationForm.reset();
                         setModalOpened(false);
                     }, 1500);
                     break;
@@ -84,8 +85,7 @@ const PublicView = () => {
     });
 
     const declineInvitation = () => {
-        alert('Invitation declined!');
-        // Perform review operation here
+        location.replace("/");
     };
 
     return (
