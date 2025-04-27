@@ -103,22 +103,26 @@ export const AppLayout = () => {
                                                 href="/blog"
                                                 label="Blog"
                                             />
-                                            <NavLink
-                                                active={activePath.startsWith("/plans")}
-                                                href="/plans"
-                                                label="Plans"
-                                            />
                                         </>
                                     )}
 
-                                    {/* Public Menu */}
-                                    {!userFirstname && (
+                                    {userType !== "ADMIN" && (
                                         <>
                                             <NavLink
                                                 active={activePath.startsWith("/plans")}
                                                 href="/plans"
                                                 label="Plans"
                                             />
+                                        </>)}
+
+                                    {/* Public Menu */}
+                                    {!userFirstname && (
+                                        <>
+                                            {/*<NavLink*/}
+                                            {/*    active={activePath.startsWith("/plans")}*/}
+                                            {/*    href="/plans"*/}
+                                            {/*    label="Plans"*/}
+                                            {/*/>*/}
                                             <NavLink
                                                 active={activePath.startsWith("/blog")}
                                                 href="/blog"
