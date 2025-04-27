@@ -193,7 +193,7 @@ export const AppLayout = () => {
                             <Route path="/contact-us" element={<ContactUs/>}/>
                             <Route path="/invitation/:id" element={<PublicView/>}/>
                             <Route path="/plans"
-                                   element={<UserProtectedRoute><UpgradePlan/></UserProtectedRoute>}/>
+                                   element={<UpgradePlan/>}/>
                             <Route path="/app/events" element={<UserProtectedRoute><Events/></UserProtectedRoute>}/>
                             <Route path="/app/events/:id"
                                    element={<UserProtectedRoute><EventDetailsPage/></UserProtectedRoute>}/>
